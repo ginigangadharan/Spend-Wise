@@ -5,5 +5,6 @@ var expenseManager = require('../controller/Controller.expenseManagement');
 
 router.post('/todaysexpenses', expenseManager.fetchTodaysExpensesByUserId);
 router.post('/addTransaction', expenseManager.addTransactionByUserId);
+router.post('/dailyexpensesummary', expenseManager.fetchDailyExpenseSummary);
 
 module.exports = router;

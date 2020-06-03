@@ -32,6 +32,22 @@ var expenseManagementService = {
         } catch (e) {
             console.log("Error in handleaddTransactionByUserId : " + e);
         }
+    },
+    handlefetchDailyExpenseSummary: function (data) {
+        try {
+            return new Promise((resolve, reject) => {
+                db.query('CALL SP_FetchDailyExpenseSummary(?)', [data.searchDate], (error, rows) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(rows);
+                    }
+                });
+            });
+        } catch (e) {
+            console.log("Error in handlefetchDailyExpenseSummary : " + e);
+        }
     }
 };
 module.exports = expenseManagementService;

@@ -2,10 +2,10 @@ var expenseManagementServices = require('../service/Service.expenseManagement');
 var valueChecker = require('../helpers/valueChecker');
 
 let expenseManagementContoller = {
-    fetchTodaysExpensesByUserId(req, res, next) {
+    fetchTodaysExpensesByUserId(req, res) {
         if (valueChecker.checkObject({
-            date: req.body.searchDate,
-            userId: req.body.userID
+            searchDate: req.body.searchDate,
+            userID: req.body.userID
         }) !== true) {
             return res.status(500).json({ error: valueChecker.errorMessage });
         }
@@ -18,7 +18,7 @@ let expenseManagementContoller = {
             return res.status(500).json(error);
         })
     },
-    addTransactionByUserId(req, res, next) {
+    addTransactionByUserId(req, res) {
         if (valueChecker.checkObject({
             categoryId: req.body.categoryId,
             description: req.body.description,
@@ -27,11 +27,25 @@ let expenseManagementContoller = {
             transactionDate: req.body.transactionDate,
             createdBy: req.body.createdBy,
             modifiedBy: req.body.modifiedBy
-
         }) !== true) {
             return res.status(500).json({ error: valueChecker.errorMessage });
         }
         expenseManagementServices.handleaddTransactionByUserId(req.body).then(result => {
+            var data = {
+                "result": result[0]
+            }
+            return res.status(200).json(data);
+        }).catch(error => {
+            return res.status(500).json(error);
+        })
+    },
+    fetchDailyExpenseSummary(req, res) {
+        if (valueChecker.checkObject({
+            searchDate: req.body.searchDate
+        }) !== true) {
+            return res.status(500).json({ error: valueChecker.errorMessage });
+        }
+        expenseManagementServices.handlefetchDailyExpenseSummary(req.body).then(result => {
             var data = {
                 "result": result[0]
             }

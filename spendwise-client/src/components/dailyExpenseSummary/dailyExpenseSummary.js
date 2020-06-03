@@ -1,28 +1,59 @@
-import React, { Component } from "react";
+import React, { Fragment, Component } from "react";
+import axios from 'axios';
+import * as moment from 'moment'
 
 export default class DailyExpenseSummary extends Component {
+    state = {
+        summaryDetails: []
+    }
+    componentDidMount() {
+        const postData = {
+            searchDate: moment().format('YYYY/MM/DD'),
+            userID: 1
+        };
+
+        axios.post('http://localhost:5000/api/dailyexpensesummary', postData)
+            .then((response) => {
+                this.setState({
+                    summaryDetails: response.data.result
+                })
+            }, (error) => {
+                console.log(error);
+            });
+    }
+
     render() {
-        return (
-            <div class="container" style={{ paddingTop: "100px" }}>
-                <div class="row">
-                    <div class="col">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Income</h5>
-                                <p class="card-text">15000 MYR</p>
+        const { summaryDetails } = this.state;
+        let expenseSummaryComponent;
+        let className;
+        expenseSummaryComponent = (
+            <div className="container" style={{ paddingTop: "100px" }}>
+                <div className="row">
+                    {summaryDetails.map((summary) => {
+                        const { expenseType, Amount } = summary;
+                        if (expenseType === 'Income') {
+                            className = "card text-white bg-success mb-3";
+                        } else {
+                            className = "card text-white bg-danger mb-3"
+                        }
+                        return (
+                            <div className="col">
+                                <div class={className}>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{expenseType}</h5>
+                                        <p class="card-text">{Amount} MYR</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card text-white bg-danger mb-3" >
-                            <div class="card-body">
-                                <h5 class="card-title">Expense</h5>
-                                <p class="card-text">8900 MYR</p>
-                            </div>
-                        </div>
-                    </div>
+                        )
+                    })}
                 </div>
             </div>
+        );
+        return (
+            <Fragment>
+                {expenseSummaryComponent}
+            </Fragment>
         )
     }
 }
