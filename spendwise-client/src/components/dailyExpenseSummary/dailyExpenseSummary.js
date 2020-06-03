@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from "react";
-import axios from 'axios';
+import API from '../../api/api';
 import * as moment from 'moment'
 
 export default class DailyExpenseSummary extends Component {
@@ -12,7 +12,7 @@ export default class DailyExpenseSummary extends Component {
             userID: 1
         };
 
-        axios.post('http://localhost:5000/api/dailyexpensesummary', postData)
+        API.post('dailyexpensesummary', postData)
             .then((response) => {
                 this.setState({
                     summaryDetails: response.data.result
@@ -37,11 +37,11 @@ export default class DailyExpenseSummary extends Component {
                             className = "card text-white bg-danger mb-3"
                         }
                         return (
-                            <div className="col">
-                                <div class={className}>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{expenseType}</h5>
-                                        <p class="card-text">{Amount} MYR</p>
+                            <div className="col" key={expenseType}>
+                                <div className={className} key={expenseType}>
+                                    <div className="card-body" key={expenseType}>
+                                        <h5 className="card-title">{expenseType}</h5>
+                                        <p className="card-text">{Amount} MYR</p>
                                     </div>
                                 </div>
                             </div>

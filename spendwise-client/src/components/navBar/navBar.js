@@ -12,7 +12,7 @@ export default class DashNav extends Component {
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <a>Logout</a>
+                                {/* <a>Logout</a> */}
                             </li>
                         </ul>
                     </div>
