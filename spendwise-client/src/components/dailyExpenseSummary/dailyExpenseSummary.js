@@ -41,7 +41,7 @@ export default class DailyExpenseSummary extends Component {
                                 <div className={className} key={expenseType}>
                                     <div className="card-body" key={expenseType}>
                                         <h5 className="card-title">{expenseType}</h5>
-                                        <p className="card-text">{Amount} MYR</p>
+                                        <p className="card-text">{Amount ? Amount : 0} MYR</p>
                                     </div>
                                 </div>
                             </div>

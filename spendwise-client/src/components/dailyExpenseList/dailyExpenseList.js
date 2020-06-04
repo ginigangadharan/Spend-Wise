@@ -16,7 +16,8 @@ export default class DailyExpenselist extends Component {
         per_page: 4,
         total: 0,
         total_pages: 0,
-        showModal: false
+        showModal: false,
+        isReccuring: false
     }
 
     handleInput = e => {
@@ -48,11 +49,14 @@ export default class DailyExpenselist extends Component {
     }
 
     updatePage = (selectedPage) => {
-        console.log('selectedPage: ' + selectedPage);
         this.fetchData(selectedPage);
     }
 
-
+    updateReccuring = () => {
+        this.setState({
+            isReccuring: !this.state.isReccuring
+        })
+    }
 
     render() {
         const { expense } = this.state;
@@ -95,7 +99,7 @@ export default class DailyExpenselist extends Component {
             <Fragment>
                 {expenseListComponent}
                 {this.state.total_pages > 1 ? <PageComp page={this.state.page} totalPages={this.state.total_pages} pageUpdate={this.updatePage} /> : null}
-                <Modal isOpen={this.state.showModal} closeModal={this.toggleModal} />
+                <Modal isOpen={this.state.showModal} isRepeat={this.state.isReccuring} closeModal={this.toggleModal} toggleReccuring={this.updateReccuring} />
             </Fragment>
         )
     }
