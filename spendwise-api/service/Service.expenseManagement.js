@@ -1,6 +1,22 @@
 var db = require('../db/dbConnection');
 
 var expenseManagementService = {
+    handlefetchDailyExpenses: function (data) {
+        try {
+            return new Promise((resolve, reject) => {
+                db.query('CALL SP_FetchDailyExpenses(?,?)', [data.searchDate, data.page], (error, rows) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(rows);
+                    }
+                });
+            });
+        } catch (e) {
+            console.log("Error in handlefetchDailyExpenses : " + e);
+        }
+    },
     handlefetchTodaysExpensesByUserId: function (data) {
         try {
             return new Promise((resolve, reject) => {

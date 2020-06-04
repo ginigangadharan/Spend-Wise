@@ -2,6 +2,26 @@ var expenseManagementServices = require('../service/Service.expenseManagement');
 var valueChecker = require('../helpers/valueChecker');
 
 let expenseManagementContoller = {
+    fetchDailyExpenses(req, res) {
+        if (valueChecker.checkObject({
+            searchDate: req.query.searchDate,
+            page: req.query.page
+        }) !== true) {
+            return res.status(500).json({ error: valueChecker.errorMessage });
+        }
+        expenseManagementServices.handlefetchDailyExpenses(req.query).then(result => {
+            var data = {
+                "page": parseInt(req.query.page),
+                "per_page": result[1][0].per_page,
+                "total": result[1][0].total,
+                "total_pages": result[1][0].total_pages,
+                "result": result[0]
+            }
+            return res.status(200).json(data);
+        }).catch(error => {
+            return res.status(500).json(error);
+        })
+    },
     fetchTodaysExpensesByUserId(req, res) {
         if (valueChecker.checkObject({
             searchDate: req.body.searchDate,

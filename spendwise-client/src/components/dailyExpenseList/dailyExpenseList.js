@@ -2,30 +2,57 @@ import React, { Fragment, Component } from "react";
 import API from '../../api/api';
 import * as moment from 'moment'
 
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleIcon from '@material-ui/icons/AddCircleOutlineSharp';
+
+import Modal from '../addExpense/addExpense';
+import PageComp from '../pager/pager';
+
 export default class DailyExpenselist extends Component {
     state = {
-        expense: []
+        expense: [],
+        page: 1,
+        per_page: 4,
+        total: 0,
+        total_pages: 0,
+        showModal: false
     }
 
     handleInput = e => {
-        const buttonValue = e.target.value;
+        const buttonValue = e.currentTarget.value;
         alert(buttonValue);
     }
     componentDidMount() {
-        const postData = {
-            searchDate: moment().format('YYYY/MM/DD'),
-            userID: 1
-        };
+        this.fetchData(this.state.page);
+    }
 
-        API.post('todaysexpenses', postData)
+    fetchData = (PageId) => {
+        API.get('dailyexpenses?searchDate=' + moment().format('YYYY/MM/DD') + '&page=' + PageId)
             .then((response) => {
                 this.setState({
-                    expense: response.data.result
+                    expense: response.data.result,
+                    page: response.data.page,
+                    total: response.data.total,
+                    total_pages: response.data.total_pages
                 })
             }, (error) => {
                 console.log(error);
             });
     }
+
+    toggleModal = () => {
+        this.setState({
+            showModal: !this.state.showModal
+        })
+    }
+
+    updatePage = (selectedPage) => {
+        console.log('selectedPage: ' + selectedPage);
+        this.fetchData(selectedPage);
+    }
+
+
 
     render() {
         const { expense } = this.state;
@@ -33,8 +60,13 @@ export default class DailyExpenselist extends Component {
         let className;
         expenseListComponent = (
             <div className="container" style={{ paddingTop: "40px" }}>
-                <h3>Daily Expense List - {moment().format('DD/MM/YYYY')}</h3>
-                <div className="row">
+                <div className="container">
+                    <h4 className="d-inline-block">Daily Expense List - {moment().format('DD/MM/YYYY')}</h4>
+                    <div className="pull-right">
+                        <Button onClick={this.toggleModal} variant="contained" color="primary" size="small" startIcon={<AddCircleIcon />}>Add</Button>
+                    </div>
+                </div>
+                <div className="row" style={{ paddingTop: "40px" }}>
                     {expense.map((expenses) => {
                         const { Id, Amount, Category, Description, DateofEntry, expenseType } = expenses;
                         if (expenseType === 'Payment') {
@@ -50,7 +82,7 @@ export default class DailyExpenselist extends Component {
                                         <p className="card-text">{Description}</p>
                                         <p className="card-text">MYR {Amount}</p>
                                         <p className="card-text">{DateofEntry}</p>
-                                        <button className="btn btn-danger" value={Id} onClick={this.handleInput}>Delete Transaction</button>
+                                        <Button value={Id} onClick={this.handleInput} size="small" variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete</Button>
                                     </div>
                                 </div>
                             </div>
@@ -62,6 +94,8 @@ export default class DailyExpenselist extends Component {
         return (
             <Fragment>
                 {expenseListComponent}
+                {this.state.total_pages > 1 ? <PageComp page={this.state.page} totalPages={this.state.total_pages} pageUpdate={this.updatePage} /> : null}
+                <Modal isOpen={this.state.showModal} closeModal={this.toggleModal} />
             </Fragment>
         )
     }
