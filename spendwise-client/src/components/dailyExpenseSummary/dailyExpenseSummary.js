@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from "react";
+import DailyExpenseComp from '../dailyExpenseList/dailyExpenseList';
 import API from '../../api/api';
 import * as moment from 'moment'
 
@@ -7,6 +8,10 @@ export default class DailyExpenseSummary extends Component {
         summaryDetails: []
     }
     componentDidMount() {
+        this.fetchSummary();
+    }
+
+    fetchSummary = () => {
         const postData = {
             searchDate: moment().format('YYYY/MM/DD'),
             userID: 1
@@ -53,6 +58,7 @@ export default class DailyExpenseSummary extends Component {
         return (
             <Fragment>
                 {expenseSummaryComponent}
+                <DailyExpenseComp updateSummary={this.fetchSummary} />
             </Fragment>
         )
     }

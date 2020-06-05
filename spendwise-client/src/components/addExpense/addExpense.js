@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import 'date-fns';
-import { Button, Modal, Form, Col } from 'react-bootstrap';
+import { Button, Modal, Form, Col, Spinner } from 'react-bootstrap';
 import Switch from '@material-ui/core/Switch';
 import { FormGroup } from "@material-ui/core";
 import DateFnsUtils from '@date-io/date-fns';
@@ -46,13 +46,44 @@ export default class AddExpense extends Component {
         this.props.modifyStateData(updatedValue);
     }
 
-    submitForm = (e) => {
-        console.log('Form Data');
-        console.log(this.refs.categoryId.value);
-        console.log(this.refs.expenseTypeId.value);
-        console.log(this.refs.amount.value);
-        console.log(this.props.isRepeat);
-        console.log(this.refs.desc.value);
+    submitForm = (event) => {
+        // console.log(this.refs.categoryId.value);
+        // console.log(this.refs.expenseTypeId.value);
+        // console.log(this.refs.amount.value);
+        // console.log(this.props.isRepeat);
+        // console.log(this.refs.desc.value);
+        // console.log(moment(this.props.dateofEntry).format('YYYY/MM/DD'));
+        const formData = [];
+        let updatedValue = {}
+        let formChecker = true;
+        formData.push(this.refs.categoryId);
+        formData.push(this.refs.expenseTypeId);
+        formData.push(this.refs.amount);
+        formData.push(this.refs.desc);
+        formData.forEach(item => {
+            if (item.checkValidity() === false) {
+                formChecker = false;
+            }
+        });
+        if (formChecker === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            updatedValue.validated = true;
+            this.props.modifyStateData(updatedValue);
+        } else {
+            let payLoad = {
+                "categoryId": this.refs.categoryId.value,
+                "description": this.refs.desc.value,
+                "amount": this.refs.amount.value,
+                "expenseType": this.refs.expenseTypeId.value,
+                "transactionDate": moment(this.props.dateofEntry).format('YYYY/MM/DD'),
+                "createdBy": 1,
+                "modifiedBy": 1
+            }
+            updatedValue.validated = false;
+            this.props.modifyStateData(updatedValue);
+            this.props.addTransaction(payLoad);
+        }
     }
 
     render() {
@@ -115,10 +146,11 @@ export default class AddExpense extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Form>
+                    <Form noValidate validated={this.props.validated}>
                         <Form.Group>
                             <Form.Label>Category</Form.Label>
-                            <Form.Control as="select" ref="categoryId" className="my-1 mr-sm-2" custom>
+                            <Form.Control as="select" ref="categoryId" className="my-1 mr-sm-2" custom required>
+                                <option value="">Choose...</option>
                                 <option value="1">Utilities</option>
                                 <option value="2">Transportation</option>
                                 <option value="3">Internet</option>
@@ -130,14 +162,18 @@ export default class AddExpense extends Component {
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Expense Type</Form.Label>
-                            <Form.Control as="select" ref="expenseTypeId" className="my-1 mr-sm-2" custom>
+                            <Form.Control as="select" ref="expenseTypeId" className="my-1 mr-sm-2" custom required>
+                                <option value="">Choose..</option>
                                 <option value="1">Earnings</option>
                                 <option value="2">Payment</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Amount</Form.Label>
-                            <Form.Control required type="number" min='1' placeholder="Enter amount" ref="amount" />
+                            <Form.Control type="number" min='1' placeholder="Enter amount" ref="amount" required />
+                            <Form.Control.Feedback type="invalid">
+                                Amount cannot be blank!
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <FormGroup>
                             <Form.Label>Reccuring Cost</Form.Label>
@@ -152,7 +188,10 @@ export default class AddExpense extends Component {
                         {this.props.isRepeat !== true ? datePicker : dateRangePicker}
                         <Form.Group>
                             <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" rows="3" ref="desc" />
+                            <Form.Control as="textarea" rows="3" ref="desc" required />
+                            <Form.Control.Feedback type="invalid">
+                                Description cannot be blank!
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Form>
                 </Modal.Body>

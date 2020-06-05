@@ -22,7 +22,12 @@ export default class DailyExpenselist extends Component {
         startDate: moment().format('MM-DD-YYYY'),
         endDate: moment().add(5, 'd').format('MM-DD-YYYY'),
         minDate: moment().add(1, 'd').format('MM-DD-YYYY'),
-        maxDate: moment().add(5, 'd').format('MM-DD-YYYY')
+        maxDate: moment().add(5, 'd').format('MM-DD-YYYY'),
+        validated: false
+    }
+    constructor(props) {
+        super(props);
+        console.log('agaile' + JSON.stringify(props));
     }
 
     componentDidMount() {
@@ -65,14 +70,20 @@ export default class DailyExpenselist extends Component {
     }
 
     updateStateValues = (updatedStateValues) => {
-        // let objectData = updatedStateValues;
-        // let nestedKey = objectData.key;
-        // let nestedValue = updatedStateValues[Object.keys(updatedStateValues)[0]];
-        // // const newState = Object.assign({}, this.state);
-        // // newState.addTransaction[nestedKey] = nestedValue;
-        // // this.setState(newState);
-        // // console.log('New State :' + JSON.stringify(this.state));
         this.setState(updatedStateValues)
+    }
+
+    createTransaction = (payloadData) => {
+        API.post('addTransaction', payloadData)
+            .then((response) => {
+                this.setState({
+                    showModal: false
+                })
+                this.fetchData(this.state.page);
+                this.props.updateSummary();
+            }, (error) => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -126,6 +137,8 @@ export default class DailyExpenselist extends Component {
                     endDate={this.state.endDate}
                     minDate={this.state.minDate}
                     maxDate={this.state.maxDate}
+                    validated={this.state.validated}
+                    addTransaction={this.createTransaction}
                 />
             </Fragment>
         )
