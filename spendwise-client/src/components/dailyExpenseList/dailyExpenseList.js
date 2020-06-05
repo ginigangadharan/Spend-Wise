@@ -17,13 +17,14 @@ export default class DailyExpenselist extends Component {
         total: 0,
         total_pages: 0,
         showModal: false,
-        isReccuring: false
+        isReccuringTransaction: false,
+        dateofEntry: moment().format('MM-DD-YYYY'),
+        startDate: moment().format('MM-DD-YYYY'),
+        endDate: moment().add(5, 'd').format('MM-DD-YYYY'),
+        minDate: moment().add(1, 'd').format('MM-DD-YYYY'),
+        maxDate: moment().add(5, 'd').format('MM-DD-YYYY')
     }
 
-    handleInput = e => {
-        const buttonValue = e.currentTarget.value;
-        alert(buttonValue);
-    }
     componentDidMount() {
         this.fetchData(this.state.page);
     }
@@ -42,6 +43,11 @@ export default class DailyExpenselist extends Component {
             });
     }
 
+    handleDeleteEntry = e => {
+        const buttonValue = e.currentTarget.value;
+        alert(buttonValue);
+    }
+
     toggleModal = () => {
         this.setState({
             showModal: !this.state.showModal
@@ -52,10 +58,21 @@ export default class DailyExpenselist extends Component {
         this.fetchData(selectedPage);
     }
 
-    updateReccuring = () => {
+    toggleReccuring = () => {
         this.setState({
-            isReccuring: !this.state.isReccuring
+            isReccuringTransaction: !this.state.isReccuringTransaction
         })
+    }
+
+    updateStateValues = (updatedStateValues) => {
+        // let objectData = updatedStateValues;
+        // let nestedKey = objectData.key;
+        // let nestedValue = updatedStateValues[Object.keys(updatedStateValues)[0]];
+        // // const newState = Object.assign({}, this.state);
+        // // newState.addTransaction[nestedKey] = nestedValue;
+        // // this.setState(newState);
+        // // console.log('New State :' + JSON.stringify(this.state));
+        this.setState(updatedStateValues)
     }
 
     render() {
@@ -86,7 +103,7 @@ export default class DailyExpenselist extends Component {
                                         <p className="card-text">{Description}</p>
                                         <p className="card-text">MYR {Amount}</p>
                                         <p className="card-text">{DateofEntry}</p>
-                                        <Button value={Id} onClick={this.handleInput} size="small" variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete</Button>
+                                        <Button value={Id} onClick={this.handleDeleteEntry} size="small" variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete</Button>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +116,17 @@ export default class DailyExpenselist extends Component {
             <Fragment>
                 {expenseListComponent}
                 {this.state.total_pages > 1 ? <PageComp page={this.state.page} totalPages={this.state.total_pages} pageUpdate={this.updatePage} /> : null}
-                <Modal isOpen={this.state.showModal} isRepeat={this.state.isReccuring} closeModal={this.toggleModal} toggleReccuring={this.updateReccuring} />
+                <Modal
+                    modifyStateData={this.updateStateValues}
+                    openModal={this.state.showModal}
+                    closeModal={this.toggleModal}
+                    isRepeat={this.state.isReccuringTransaction}
+                    dateofEntry={this.state.dateofEntry}
+                    startDate={this.state.startDate}
+                    endDate={this.state.endDate}
+                    minDate={this.state.minDate}
+                    maxDate={this.state.maxDate}
+                />
             </Fragment>
         )
     }

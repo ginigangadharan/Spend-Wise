@@ -7,26 +7,50 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import * as moment from 'moment';
 
+let updatedValue = {};
 export default class AddExpense extends Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     closePopup = (e) => {
         e.preventDefault();
         this.props.closeModal();
     }
 
-    handleReccuring = (e) => {
-        this.props.toggleReccuring();
+    handleToggleRepeat = (e) => {
+        updatedValue = {}
+        updatedValue.isReccuringTransaction = !this.props.isRepeat;
+        this.props.modifyStateData(updatedValue);
     }
 
     handleGetDateEntry = (e) => {
-        console.log(moment(e).format('L'));
+        updatedValue = {}
+        updatedValue.dateofEntry = moment(e).format('MM-DD-YYYY');
+        this.props.modifyStateData(updatedValue);
+    }
+
+    handleGetStartDateEntry = (e) => {
+        updatedValue = {}
+        updatedValue.startDate = moment(e).format('MM-DD-YYYY');
+        updatedValue.endDate = moment(e).add(1, 'd').format('MM-DD-YYYY');
+        updatedValue.minDate = moment(e).add(1, 'd').format('MM-DD-YYYY');
+        updatedValue.maxDate = moment(e).add(5, 'd').format('MM-DD-YYYY');
+        this.props.modifyStateData(updatedValue);
+    }
+
+    handleGetEndDateEntry = (e) => {
+        updatedValue = {}
+        updatedValue.endDate = moment(e).format('MM-DD-YYYY');
+        this.props.modifyStateData(updatedValue);
     }
 
     submitForm = (e) => {
         console.log('Form Data');
-        console.log(this.refs.amount.value);
         console.log(this.refs.categoryId.value);
         console.log(this.refs.expenseTypeId.value);
+        console.log(this.refs.amount.value);
         console.log(this.props.isRepeat);
         console.log(this.refs.desc.value);
     }
@@ -40,18 +64,10 @@ export default class AddExpense extends Component {
                         margin="normal"
                         id="date-picker-dialog"
                         label="Date of entry"
-                        format="dd/MM/yyyy"
-                        value={moment().format('YYYY-MM-DD')}
+                        format="dd-MM-yyyy"
+                        value={this.props.dateofEntry}
                         onChange={this.handleGetDateEntry}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
                         disablePast="true"
-                        maxDate={new Date('2020-08-29')}
-                        InputProps={{
-                            disableUnderline: true,
-                        }}
-                        invalidDateMessage="not valid"
                     />
                 </MuiPickersUtilsProvider>
             </Form.Group>
@@ -66,12 +82,9 @@ export default class AddExpense extends Component {
                                 margin="normal"
                                 id="date-picker-dialog"
                                 label="Start date"
-                                format="dd/MM/yyyy"
-                                value={moment().format('YYYY-MM-DD')}
-                                onChange={this.handleGetDateEntry}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
+                                format="dd-MM-yyyy"
+                                value={this.props.startDate}
+                                onChange={this.handleGetStartDateEntry}
                                 disablePast="true"
                             />
                         </MuiPickersUtilsProvider>
@@ -82,13 +95,12 @@ export default class AddExpense extends Component {
                                 margin="normal"
                                 id="date-picker-dialog"
                                 label="End date"
-                                format="dd/MM/yyyy"
-                                value={moment().format('YYYY-MM-DD')}
-                                onChange={this.handleGetDateEntry}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
+                                format="dd-MM-yyyy"
+                                value={this.props.endDate}
+                                onChange={this.handleGetEndDateEntry}
                                 disablePast="true"
+                                minDate={this.props.minDate}
+                                maxDate={this.props.maxDate}
                             />
                         </MuiPickersUtilsProvider>
                     </Col>
@@ -97,7 +109,7 @@ export default class AddExpense extends Component {
         );
 
         return (
-            <Modal show={this.props.isOpen}>
+            <Modal show={this.props.openModal}>
                 <Modal.Header>
                     <Modal.Title>Add New Transaction</Modal.Title>
                 </Modal.Header>
@@ -133,7 +145,7 @@ export default class AddExpense extends Component {
                                 checked={this.props.isRepeat}
                                 color="primary"
                                 name="checkedR"
-                                onChange={this.handleReccuring}
+                                onChange={this.handleToggleRepeat}
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             />
                         </FormGroup>
