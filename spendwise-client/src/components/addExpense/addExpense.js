@@ -15,7 +15,7 @@ export default class AddExpense extends Component {
     }
 
     closePopup = (e) => {
-        e.preventDefault();
+        this.handleToggleRepeat();
         this.props.closeModal();
     }
 
@@ -139,7 +139,7 @@ export default class AddExpense extends Component {
         );
 
         return (
-            <Modal show={this.props.openModal}>
+            <Modal show={this.props.openModal} onHide={this.closePopup}>
                 <Modal.Header>
                     <Modal.Title>Add New Transaction</Modal.Title>
                 </Modal.Header>

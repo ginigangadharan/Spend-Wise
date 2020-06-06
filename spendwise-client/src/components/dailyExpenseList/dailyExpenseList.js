@@ -149,7 +149,7 @@ export default class DailyExpenselist extends Component {
                             className = "card border-success mb-3"
                         }
                         return (
-                            <div className="col" key={Id}>
+                            <div className="col-sm-3" key={Id}>
                                 <div className={className} key={Id}>
                                     <div className="card-body" key={Id}>
                                         <h5 className="card-title">{Category}</h5>
