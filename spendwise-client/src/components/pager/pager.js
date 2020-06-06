@@ -2,6 +2,9 @@ import React, { Fragment, Component } from "react";
 
 export default class Pager extends Component {
 
+    constructor(props) {
+        super(props);
+    }
 
     togglePrevious = (e) => {
         e.preventDefault();

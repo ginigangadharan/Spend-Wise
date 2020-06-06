@@ -10,23 +10,24 @@ import ModalExpense from '../addExpense/addExpense';
 import PageComp from '../pager/pager';
 
 export default class DailyExpenselist extends Component {
-    state = {
-        expense: [],
-        page: 1,
-        per_page: 4,
-        total: 0,
-        total_pages: 0,
-        showModal: false,
-        isReccuringTransaction: false,
-        dateofEntry: moment().format('MM-DD-YYYY'),
-        startDate: moment().format('MM-DD-YYYY'),
-        endDate: moment().add(5, 'd').format('MM-DD-YYYY'),
-        minDate: moment().add(1, 'd').format('MM-DD-YYYY'),
-        maxDate: moment().add(5, 'd').format('MM-DD-YYYY'),
-        validated: false
-    }
     constructor(props) {
         super(props);
+
+        this.state = {
+            expense: [],
+            page: 1,
+            per_page: 4,
+            total: 0,
+            total_pages: 0,
+            showModal: false,
+            isReccuringTransaction: false,
+            dateofEntry: moment().format('MM-DD-YYYY'),
+            startDate: moment().format('MM-DD-YYYY'),
+            endDate: moment().add(5, 'd').format('MM-DD-YYYY'),
+            minDate: moment().add(1, 'd').format('MM-DD-YYYY'),
+            maxDate: moment().add(5, 'd').format('MM-DD-YYYY'),
+            validated: false
+        }
     }
 
     componentDidMount() {
@@ -81,7 +82,6 @@ export default class DailyExpenselist extends Component {
     formatPayload = (payload) => {
         let dataDict = [];
         let transactionDate;
-        console.log(payload)
         let start = moment(payload.startDate, "YYYY/MM/DD");
         let end = moment(payload.endDate, "YYYY/MM/DD");
         let days = moment.duration(end.diff(start)).asDays() + parseInt(1);
