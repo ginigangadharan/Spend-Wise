@@ -73,6 +73,22 @@ let expenseManagementContoller = {
         }).catch(error => {
             return res.status(500).json(error);
         })
+    },
+    addBulkTransaction(req, res) {
+        let payload = req.body;
+        if (Array.isArray(payload) && (payload.length > 0)) {
+            expenseManagementServices.handleaddBulkTransaction(payload).then(result => {
+                var data = {
+                    "result": result.insertId
+                }
+                return res.status(200).json(data);
+            }).catch(error => {
+                return res.status(500).json(error);
+            })
+        } else {
+            return res.status(500).json({ error: "Invalid Input!" });
+        }
+
     }
 };
 module.exports = expenseManagementContoller;

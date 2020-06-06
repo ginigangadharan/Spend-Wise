@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import 'date-fns';
-import { Button, Modal, Form, Col, Spinner } from 'react-bootstrap';
+import { Button, Modal, Form, Col } from 'react-bootstrap';
 import Switch from '@material-ui/core/Switch';
 import { FormGroup } from "@material-ui/core";
 import DateFnsUtils from '@date-io/date-fns';
@@ -55,6 +55,7 @@ export default class AddExpense extends Component {
         // console.log(moment(this.props.dateofEntry).format('YYYY/MM/DD'));
         const formData = [];
         let updatedValue = {}
+        let payLoad = {}
         let formChecker = true;
         formData.push(this.refs.categoryId);
         formData.push(this.refs.expenseTypeId);
@@ -71,16 +72,20 @@ export default class AddExpense extends Component {
             updatedValue.validated = true;
             this.props.modifyStateData(updatedValue);
         } else {
-            let payLoad = {
-                "categoryId": this.refs.categoryId.value,
-                "description": this.refs.desc.value,
-                "amount": this.refs.amount.value,
-                "expenseType": this.refs.expenseTypeId.value,
-                "transactionDate": moment(this.props.dateofEntry).format('YYYY/MM/DD'),
-                "createdBy": 1,
-                "modifiedBy": 1
-            }
+            payLoad.categoryId = this.refs.categoryId.value;
+            payLoad.description = this.refs.desc.value;
+            payLoad.amount = this.refs.amount.value;
+            payLoad.expenseType = this.refs.expenseTypeId.value;
+            payLoad.createdBy = 1;
+            payLoad.modifiedBy = 1;
             updatedValue.validated = false;
+            if (this.props.isRepeat) {
+                payLoad.startDate = moment(this.props.startDate).format('YYYY/MM/DD');
+                payLoad.endDate = moment(this.props.endDate).format('YYYY/MM/DD');
+                payLoad.isRecurring = this.props.isRepeat;
+            } else {
+                payLoad.transactionDate = moment(this.props.dateofEntry).format('YYYY/MM/DD');
+            }
             this.props.modifyStateData(updatedValue);
             this.props.addTransaction(payLoad);
         }

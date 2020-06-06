@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircleOutlineSharp';
 
-import Modal from '../addExpense/addExpense';
+import ModalExpense from '../addExpense/addExpense';
 import PageComp from '../pager/pager';
 
 export default class DailyExpenselist extends Component {
@@ -27,7 +27,6 @@ export default class DailyExpenselist extends Component {
     }
     constructor(props) {
         super(props);
-        console.log('agaile' + JSON.stringify(props));
     }
 
     componentDidMount() {
@@ -73,8 +72,24 @@ export default class DailyExpenselist extends Component {
         this.setState(updatedStateValues)
     }
 
-    createTransaction = (payloadData) => {
-        API.post('addTransaction', payloadData)
+    formatPayload = (payload) => {
+        let dataDict = [];
+        let transactionDate;
+        console.log(payload)
+        let start = moment(payload.startDate, "YYYY/MM/DD");
+        let end = moment(payload.endDate, "YYYY/MM/DD");
+        let days = moment.duration(end.diff(start)).asDays() + parseInt(1);
+        for (var i = 0; i < days; i++) {
+            let dataObj = [];
+            transactionDate = moment(payload.startDate).add(i, 'd').format('YYYY/MM/DD')
+            dataObj.push(parseInt(payload.categoryId), payload.description, parseInt(payload.amount), parseInt(payload.expenseType), transactionDate, 1, 1)
+            dataDict.push(dataObj);
+        }
+        return dataDict;
+    }
+
+    invokeSingleTransaction = (metaData) => {
+        API.post('addTransaction', metaData)
             .then((response) => {
                 this.setState({
                     showModal: false
@@ -84,6 +99,27 @@ export default class DailyExpenselist extends Component {
             }, (error) => {
                 console.log(error);
             });
+    }
+
+    invokeBulkTransaction = (metaData) => {
+        API.post('addBulkTransaction', metaData)
+            .then((response) => {
+                this.setState({
+                    showModal: false
+                })
+                this.fetchData(this.state.page);
+                this.props.updateSummary();
+            }, (error) => {
+                console.log(error);
+            });
+    }
+
+    createTransaction = (payloadData) => {
+        if (!payloadData.isRecurring) {
+            this.invokeSingleTransaction(payloadData)
+        } else {
+            this.invokeBulkTransaction(this.formatPayload(payloadData));
+        }
     }
 
     render() {
@@ -127,7 +163,7 @@ export default class DailyExpenselist extends Component {
             <Fragment>
                 {expenseListComponent}
                 {this.state.total_pages > 1 ? <PageComp page={this.state.page} totalPages={this.state.total_pages} pageUpdate={this.updatePage} /> : null}
-                <Modal
+                <ModalExpense
                     modifyStateData={this.updateStateValues}
                     openModal={this.state.showModal}
                     closeModal={this.toggleModal}
