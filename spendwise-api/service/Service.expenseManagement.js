@@ -81,6 +81,22 @@ var expenseManagementService = {
         } catch (e) {
             console.log("Error in handleaddBulkTransaction : " + e);
         }
+    },
+    handleDeleteTransaction: function (data) {
+        try {
+            return new Promise((resolve, reject) => {
+                db.query('CALL SP_DeleteTransaction(?)', [data], (error, rows) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(rows);
+                    }
+                });
+            });
+        } catch (e) {
+            console.log("Error in handleDeleteTransaction : " + e);
+        }
     }
 };
 module.exports = expenseManagementService;

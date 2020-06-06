@@ -47,12 +47,6 @@ export default class AddExpense extends Component {
     }
 
     submitForm = (event) => {
-        // console.log(this.refs.categoryId.value);
-        // console.log(this.refs.expenseTypeId.value);
-        // console.log(this.refs.amount.value);
-        // console.log(this.props.isRepeat);
-        // console.log(this.refs.desc.value);
-        // console.log(moment(this.props.dateofEntry).format('YYYY/MM/DD'));
         const formData = [];
         let updatedValue = {}
         let payLoad = {}
@@ -161,7 +155,7 @@ export default class AddExpense extends Component {
                                 <option value="3">Internet</option>
                                 <option value="4">Car Parking</option>
                                 <option value="5">Groceries</option>
-                                <option value="5">Income</option>
+                                <option value="6">Income</option>
                                 <option value="7">Others</option>
                             </Form.Control>
                         </Form.Group>

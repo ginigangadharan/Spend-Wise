@@ -48,8 +48,14 @@ export default class DailyExpenselist extends Component {
     }
 
     handleDeleteEntry = e => {
-        const buttonValue = e.currentTarget.value;
-        alert(buttonValue);
+        const transactionId = e.currentTarget.value;
+        API.delete('deleteTransaction/' + transactionId)
+            .then((response) => {
+                this.fetchData(1);
+                this.props.updateSummary();
+            }, (error) => {
+                console.log(error);
+            });
     }
 
     toggleModal = () => {
@@ -94,7 +100,7 @@ export default class DailyExpenselist extends Component {
                 this.setState({
                     showModal: false
                 })
-                this.fetchData(this.state.page);
+                this.fetchData(1);
                 this.props.updateSummary();
             }, (error) => {
                 console.log(error);
@@ -107,7 +113,7 @@ export default class DailyExpenselist extends Component {
                 this.setState({
                     showModal: false
                 })
-                this.fetchData(this.state.page);
+                this.fetchData(1);
                 this.props.updateSummary();
             }, (error) => {
                 console.log(error);

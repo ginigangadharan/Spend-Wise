@@ -88,7 +88,19 @@ let expenseManagementContoller = {
         } else {
             return res.status(500).json({ error: "Invalid Input!" });
         }
-
+    },
+    deleteTransaction(req, res) {
+        if (parseInt(req.params.Id) < 1) {
+            return res.status(500).json({ error: "Invalid Input!" });
+        }
+        expenseManagementServices.handleDeleteTransaction(req.params.Id).then(result => {
+            var data = {
+                "result": result[0]
+            }
+            return res.status(200).json(data);
+        }).catch(error => {
+            return res.status(500).json(error);
+        })
     }
 };
 module.exports = expenseManagementContoller;
