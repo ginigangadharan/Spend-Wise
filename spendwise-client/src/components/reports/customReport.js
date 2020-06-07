@@ -1,133 +1,177 @@
 import React, { Component } from 'react';
 import Back2Home from '../backToHome/backtoHome';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { Form, Col } from 'react-bootstrap';
+import { FormGroup } from "@material-ui/core";
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import * as moment from 'moment';
+
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+
+
+import Button from '@material-ui/core/Button';
+import SearchIcon from '@material-ui/icons/Search';
+
+import InfoComp from '../info/info';
+
+import API from '../../api/api';
 
 class customReport extends Component {
     state = {
-        page: 0,
-        rowsPerPage: 10
+        showTable: false,
+        infoMessage: "No Data Available!",
+        startDate: null,
+        endDate: null,
+        transactions: []
     }
 
     columns = [
-        { id: 'name', label: 'Name', minWidth: 170 },
-        { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+        { id: 'category', label: 'Category', minWidth: 100 },
+        { id: 'description', label: 'Description', minWidth: 100 },
         {
-            id: 'population',
-            label: 'Population',
-            minWidth: 170,
-            align: 'right',
-            format: (value) => value.toLocaleString('en-US'),
+            id: 'amount',
+            label: 'Amount',
+            minWidth: 100
         },
         {
-            id: 'size',
-            label: 'Size\u00a0(km\u00b2)',
-            minWidth: 170,
-            align: 'right',
-            format: (value) => value.toLocaleString('en-US'),
+            id: 'dateOfEntry',
+            label: 'Transaction Date',
+            minWidth: 100
         },
         {
-            id: 'density',
-            label: 'Density',
-            minWidth: 170,
-            align: 'right',
-            format: (value) => value.toFixed(2),
+            id: 'expensetype',
+            label: 'Expense Type',
+            minWidth: 100
         },
     ]
 
-    createData = (name, code, population, size) => {
-        const density = population / size;
-        return { name, code, population, size, density };
+    handleGetStartDateEntry = (e) => {
+        this.setState({
+            startDate: moment(e).format('MM-DD-YYYY')
+        });
     }
 
-    rows = [
-        this.createData('India', 'IN', 1324171354, 3287263),
-        this.createData('China', 'CN', 1403500365, 9596961),
-        this.createData('Italy', 'IT', 60483973, 301340),
-        this.createData('United States', 'US', 327167434, 9833520),
-        this.createData('Canada', 'CA', 37602103, 9984670),
-        this.createData('Australia', 'AU', 25475400, 7692024),
-        this.createData('Germany', 'DE', 83019200, 357578),
-        this.createData('Ireland', 'IE', 4857000, 70273),
-        this.createData('Mexico', 'MX', 126577691, 1972550),
-        this.createData('Japan', 'JP', 126317000, 377973),
-        this.createData('France', 'FR', 67022000, 640679),
-        this.createData('United Kingdom', 'GB', 67545757, 242495),
-        this.createData('Russia', 'RU', 146793744, 17098246),
-        this.createData('Nigeria', 'NG', 200962417, 923768),
-        this.createData('Brazil', 'BR', 210147125, 8515767),
-    ];
+    handleGetEndDateEntry = (e) => {
+        this.setState({
+            endDate: moment(e).format('MM-DD-YYYY')
+        });
+    }
 
-    useStyles = makeStyles({
-        root: {
-            width: '100%',
-        },
-        container: {
-            maxHeight: 440,
-        },
-    });
-
+    fetchTransactions = () => {
+        let payloadData = {}
+        payloadData.startDate = moment(this.state.startDate).format('YYYY-MM-DD')
+        payloadData.endDate = moment(this.state.endDate).format('YYYY-MM-DD')
+        API.post('transactionlist', payloadData)
+            .then((response) => {
+                console.log(response.data.result);
+                this.setState({
+                    transactions: response.data.result,
+                    showTable: true
+                })
+            }, (error) => {
+                console.log(error);
+            });
+    }
 
     render() {
-        // let classes = this.useStyles();
+        let dateRangePicker;
+        dateRangePicker = (
+            <FormGroup>
+                <Form.Row>
+                    <Col>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <DatePicker
+                                margin="normal"
+                                id="date-picker-startDate"
+                                label="Start date"
+                                format="dd-MM-yyyy"
+                                value={this.state.startDate}
+                                disablePast="true"
+                                onChange={this.handleGetStartDateEntry}
+                            />
+                        </MuiPickersUtilsProvider>
+                    </Col>
+                    <Col>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <DatePicker
+                                margin="normal"
+                                id="date-picker-endDate"
+                                label="End date"
+                                format="dd-MM-yyyy"
+                                value={this.state.endDate}
+                                disablePast="true"
+                                onChange={this.handleGetEndDateEntry}
+                                minDate={this.state.startDate}
+                            />
+                        </MuiPickersUtilsProvider>
+                    </Col>
+                    <Col>
+                        <Button onClick={this.fetchTransactions} variant="outlined" color="secondary" size="small" startIcon={<SearchIcon />}></Button>
+                    </Col>
+                </Form.Row>
+            </FormGroup>
+        );
         return (
             <>
                 <Back2Home />
                 <div className="container">
                     <div className="row" >
-                        <span style={{ paddingLeft: "500px", paddingBottom: '20px' }}> Income Vs Expense (From - To) Custom Report</span>
-                        <Paper style={{ width: '100%' }}>
-                            <TableContainer style={{ maxHeight: '440' }}>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead>
-                                        <TableRow>
-                                            {this.columns.map((column) => (
-                                                <TableCell
-                                                    key={column.id}
-                                                    align={column.align}
-                                                    style={{ minWidth: column.minWidth }}
-                                                >
-                                                    {column.label}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {this.rows.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => {
-                                            return (
+                        <div className="col">
+                            <span style={{ paddingLeft: "20px", paddingBottom: '20px' }}> Transaction Details </span>
+                        </div>
+                        <div className="col">
+                            {dateRangePicker}
+                        </div>
+                    </div>
+                    <div className="row">
+                        {this.state.showTable === true ?
+                            <Paper style={{ width: '100%' }}>
+                                <TableContainer style={{ maxHeight: '440' }}>
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            <TableRow>
+                                                {this.columns.map((column) => (
+                                                    <TableCell
+                                                        key={column.id}
+                                                        align={column.align}
+                                                        style={{ minWidth: column.minWidth }}
+                                                    >
+                                                        {column.label}
+                                                    </TableCell>
+                                                ))}
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {this.state.transactions.map((row) => (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                    {this.columns.map((column) => {
-                                                        const value = row[column.id];
-                                                        return (
-                                                            <TableCell key={column.id} align={column.align}>
-                                                                {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                            </TableCell>
-                                                        );
-                                                    })}
+                                                    <TableCell>
+                                                        {row.Category}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {row.Description}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {row.Amount}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {row.DateofEntry}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {row.expenseType}
+                                                    </TableCell>
                                                 </TableRow>
-                                            );
-                                        })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[10, 25, 100]}
-                                component="div"
-                                count={this.rows.length}
-                                rowsPerPage={this.state.rowsPerPage}
-                                page={this.state.page}
-                            // onChangePage={handleChangePage}
-                            // onChangeRowsPerPage={handleChangeRowsPerPage}
-                            />
-                        </Paper>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Paper> : <InfoComp Message={this.state.infoMessage} />}
                     </div>
                 </div>
             </>
