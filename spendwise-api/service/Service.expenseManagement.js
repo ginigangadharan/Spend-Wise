@@ -113,6 +113,22 @@ var expenseManagementService = {
         } catch (e) {
             console.log("Error in handleGetTransactionListByDateRange : " + e);
         }
+    },
+    handleGetCategoryStat: function (data) {
+        try {
+            return new Promise((resolve, reject) => {
+                db.query('CALL SP_FetchCategoryStat(?,?)', [data.startDate, data.endDate], (error, rows) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(rows);
+                    }
+                });
+            });
+        } catch (e) {
+            console.log("Error in handleGetweeklyStat : " + e);
+        }
     }
 };
 module.exports = expenseManagementService;

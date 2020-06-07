@@ -12,8 +12,6 @@ export default class Pager extends Component {
         if (parseInt(this.props.page) > 1) {
             PrevPage = parseInt(this.props.page) - 1;
             this.props.pageUpdate(PrevPage);
-        } else {
-            console.log('First Page');
         }
     }
 
@@ -23,8 +21,6 @@ export default class Pager extends Component {
         if (parseInt(this.props.page) < parseInt(this.props.totalPages)) {
             NextPage = parseInt(this.props.page) + 1;
             this.props.pageUpdate(NextPage);
-        } else {
-            console.log('Last Page');
         }
     }
 

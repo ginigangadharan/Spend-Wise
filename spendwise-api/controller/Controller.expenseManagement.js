@@ -1,5 +1,6 @@
 var expenseManagementServices = require('../service/Service.expenseManagement');
 var valueChecker = require('../helpers/valueChecker');
+var dataFormatter = require('../helpers/statDataFormatter');
 
 let expenseManagementContoller = {
     fetchDailyExpenses(req, res) {
@@ -112,6 +113,26 @@ let expenseManagementContoller = {
         expenseManagementServices.handleGetTransactionListByDateRange(req.body).then(result => {
             var data = {
                 "result": result[0]
+            }
+            return res.status(200).json(data);
+        }).catch(error => {
+            return res.status(500).json(error);
+        })
+    },
+    fetchCategoryStat(req, res) {
+        if (valueChecker.checkObject({
+            startDate: req.body.startDate,
+            endDate: req.body.endDate
+        }) !== true) {
+            return res.status(500).json({ error: valueChecker.errorMessage });
+        }
+        expenseManagementServices.handleGetCategoryStat(req.body).then(result => {
+            // let formattedResult = dataFormatter.formatData(result[0], result[1]);
+            var data = {
+                "result": {
+                    "incomeData": result[0],
+                    "expenseData": result[1]
+                }
             }
             return res.status(200).json(data);
         }).catch(error => {

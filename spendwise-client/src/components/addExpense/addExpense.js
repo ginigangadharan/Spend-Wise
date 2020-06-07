@@ -171,7 +171,7 @@ export default class AddExpense extends Component {
                             <Form.Label>Amount</Form.Label>
                             <Form.Control type="number" min='1' placeholder="Enter amount" ref="amount" required />
                             <Form.Control.Feedback type="invalid">
-                                Amount cannot be blank!
+                                Enter Valid Amount!
                             </Form.Control.Feedback>
                         </Form.Group>
                         <FormGroup>

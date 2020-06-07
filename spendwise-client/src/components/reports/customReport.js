@@ -15,6 +15,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import ButterToast, { Cinnamon, POS_TOP, POS_RIGHT } from 'butter-toast';
 
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
@@ -65,19 +66,29 @@ class customReport extends Component {
     }
 
     fetchTransactions = () => {
-        let payloadData = {}
-        payloadData.startDate = moment(this.state.startDate).format('YYYY-MM-DD')
-        payloadData.endDate = moment(this.state.endDate).format('YYYY-MM-DD')
-        API.post('transactionlist', payloadData)
-            .then((response) => {
-                console.log(response.data.result);
-                this.setState({
-                    transactions: response.data.result,
-                    showTable: true
-                })
-            }, (error) => {
-                console.log(error);
-            });
+        if (this.state.startDate && this.state.endDate) {
+            let payloadData = {}
+            payloadData.startDate = moment(this.state.startDate).format('YYYY-MM-DD')
+            payloadData.endDate = moment(this.state.endDate).format('YYYY-MM-DD')
+            API.post('transactionlist', payloadData)
+                .then((response) => {
+                    this.setState({
+                        transactions: response.data.result,
+                        showTable: true
+                    })
+                }, (error) => {
+                    console.log(error);
+                });
+        } else {
+            this.showToast('Select Start Date & End Date');
+        }
+    }
+    showToast = (message) => {
+        return ButterToast.raise({
+            content: <Cinnamon.Crunch scheme={Cinnamon.Crunch.SCHEME_GREY}
+                content={() => <div>{message}</div>}
+                title="Error!" />
+        });
     }
 
     render() {
@@ -173,6 +184,9 @@ class customReport extends Component {
                                 </TableContainer>
                             </Paper> : <InfoComp Message={this.state.infoMessage} />}
                     </div>
+                </div>
+                <div>
+                    <ButterToast position={{ vertical: POS_TOP, horizontal: POS_RIGHT }} />
                 </div>
             </>
         );
