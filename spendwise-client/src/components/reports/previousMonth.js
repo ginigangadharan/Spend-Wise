@@ -16,8 +16,8 @@ class previousMonth extends Component {
         barChartValuesI: [],
         barChartLabelsE: [],
         barChartValuesE: [],
-        startDate: moment().format('YYYY/MM/DD'),
-        endDate: moment().add(-30, 'd').format('YYYY/MM/DD')
+        startDate: moment().add(-30, 'd').format('YYYY/MM/DD'),
+        endDate: moment().format('YYYY/MM/DD')
     }
 
     fetchStat = () => {

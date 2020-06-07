@@ -16,8 +16,8 @@ class lastWeek extends Component {
         barChartValuesI: [],
         barChartLabelsE: [],
         barChartValuesE: [],
-        startDate: moment().format('YYYY/MM/DD'),
-        endDate: moment().add(-7, 'd').format('YYYY/MM/DD')
+        startDate: moment().add(-7, 'd').format('YYYY/MM/DD'),
+        endDate: moment().format('YYYY/MM/DD')
     }
 
     fetchStat = () => {
