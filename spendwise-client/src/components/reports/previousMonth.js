@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Fab from '@material-ui/core/Fab';
-import HomeSharp from '@material-ui/icons/HomeSharp';
-import { Link } from "react-router-dom";
 import { Pie, Doughnut } from 'react-chartjs-2';
+import Back2Home from '../backToHome/backtoHome';
 
 class previousMonth extends Component {
     state = {
@@ -31,42 +29,46 @@ class previousMonth extends Component {
     }
     render() {
         return (
-            <div className="container" style={{ paddingTop: "100px" }}>
-                <div className="row">
-                    <Fab variant="extended">
-                        <Link to={"/"}><HomeSharp /></Link>
-                    </Fab>
+            <>
+                <Back2Home />
+                <div className="container">
+                    <div className="row" style={{ paddingTop: "40px" }}>
+                        <span style={{ paddingLeft: "500px" }}> Income Vs Expense (From - To) Previous Report</span>
+                        <div className="col-sm-6">
+                            <Pie
+                                data={this.state}
+                                options={{
+                                    title: {
+                                        display: true,
+                                        text: 'Average Rainfall per month',
+                                        fontSize: 20
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'right'
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div className="col-sm-6">
+                            <Doughnut
+                                data={this.state}
+                                options={{
+                                    title: {
+                                        display: true,
+                                        text: 'Average Rainfall per month',
+                                        fontSize: 20
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'right'
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <Pie
-                    data={this.state}
-                    options={{
-                        title: {
-                            display: true,
-                            text: 'Average Rainfall per month',
-                            fontSize: 20
-                        },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        }
-                    }}
-                />
-
-                <Doughnut
-                    data={this.state}
-                    options={{
-                        title: {
-                            display: true,
-                            text: 'Average Rainfall per month',
-                            fontSize: 20
-                        },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        }
-                    }}
-                />
-            </div>
+            </>
         );
     }
 }

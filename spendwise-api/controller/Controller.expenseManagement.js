@@ -101,6 +101,22 @@ let expenseManagementContoller = {
         }).catch(error => {
             return res.status(500).json(error);
         })
+    },
+    transactionlist(req, res) {
+        if (valueChecker.checkObject({
+            startDate: req.body.startDate,
+            endDate: req.body.endDate
+        }) !== true) {
+            return res.status(500).json({ error: valueChecker.errorMessage });
+        }
+        expenseManagementServices.handleGetTransactionListByDateRange(req.body).then(result => {
+            var data = {
+                "result": result[0]
+            }
+            return res.status(200).json(data);
+        }).catch(error => {
+            return res.status(500).json(error);
+        })
     }
 };
 module.exports = expenseManagementContoller;

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
-import Fab from '@material-ui/core/Fab';
-import HomeSharp from '@material-ui/icons/HomeSharp';
-import { Link } from "react-router-dom";
+import Back2Home from '../backToHome/backtoHome';
 
 class lastWeek extends Component {
     state = {
@@ -37,48 +35,46 @@ class lastWeek extends Component {
     }
     render() {
         return (
-            <div className="container" style={{ paddingTop: "100px" }}>
-                <div className="row">
-                    <Fab variant="extended">
-                        <Link to={"/"}><HomeSharp /></Link>
-                    </Fab>
-                    <span style={{ paddingLeft: "500px" }}>Last Week Expense Details</span>
-                </div>
-                <div className="row" style={{ paddingTop: "40px" }}>
-                    <div className="col-sm-6">
-                        <Bar
-                            data={this.state.barData}
-                            options={{
-                                title: {
-                                    display: true,
-                                    text: 'Average Income per category',
-                                    fontSize: 20
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'right'
-                                }
-                            }}
-                        />
-                    </div>
-                    <div className="col-sm-6">
-                        <Line
-                            data={this.state.lineData}
-                            options={{
-                                title: {
-                                    display: true,
-                                    text: 'Average Rainfall per month',
-                                    fontSize: 20
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'right'
-                                }
-                            }}
-                        />
+            <>
+                <Back2Home />
+                <div className="container">
+                    <div className="row" style={{ paddingTop: "40px" }}>
+                        <span style={{ paddingLeft: "500px" }}>Income Vs Expense (From - To)</span>
+                        <div className="col-sm-6">
+                            <Bar
+                                data={this.state.barData}
+                                options={{
+                                    title: {
+                                        display: true,
+                                        text: 'Average Income per category',
+                                        fontSize: 20
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'right'
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div className="col-sm-6">
+                            <Line
+                                data={this.state.lineData}
+                                options={{
+                                    title: {
+                                        display: true,
+                                        text: 'Average Rainfall per month',
+                                        fontSize: 20
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'right'
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }

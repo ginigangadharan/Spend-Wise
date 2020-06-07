@@ -9,6 +9,7 @@ router.post('/addTransaction', expenseManager.addTransactionByUserId);
 router.post('/dailyexpensesummary', expenseManager.fetchDailyExpenseSummary);
 router.post('/addBulkTransaction', expenseManager.addBulkTransaction);
 router.delete('/deleteTransaction/:Id', expenseManager.deleteTransaction);
+router.post('/transactionlist', expenseManager.transactionlist);
 
 
 module.exports = router;
