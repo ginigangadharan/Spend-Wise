@@ -114,7 +114,7 @@ class previousMonth extends Component {
                 <Back2Home />
                 <div className="container">
                     <div className="row" style={{ paddingTop: "40px" }}>
-                        <span style={{ paddingLeft: "300px" }}>Income Vs Expense (From {moment(this.state.endDate).format('DD-MM-YYYY')} - To {moment(this.state.startDate).format('DD-MM-YYYY')})</span>
+                        <span style={{ paddingLeft: "300px" }}>Income Vs Expense (From {moment(this.state.startDate).format('DD-MM-YYYY')} - To {moment(this.state.endDate).format('DD-MM-YYYY')})</span>
                         <div className="col-sm-6">
                             {incomeChartComponent}
                         </div>

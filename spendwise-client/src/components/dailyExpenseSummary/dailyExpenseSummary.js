@@ -13,8 +13,7 @@ export default class DailyExpenseSummary extends Component {
 
     fetchSummary = () => {
         const postData = {
-            searchDate: moment().format('YYYY/MM/DD'),
-            userID: 1
+            searchDate: moment().format('YYYY/MM/DD')
         };
 
         API.post('dailyexpensesummary', postData)

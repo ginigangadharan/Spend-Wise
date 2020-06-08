@@ -23,35 +23,17 @@ let expenseManagementContoller = {
             return res.status(500).json(error);
         })
     },
-    fetchTodaysExpensesByUserId(req, res) {
-        if (valueChecker.checkObject({
-            searchDate: req.body.searchDate,
-            userID: req.body.userID
-        }) !== true) {
-            return res.status(500).json({ error: valueChecker.errorMessage });
-        }
-        expenseManagementServices.handlefetchTodaysExpensesByUserId(req.body).then(result => {
-            var data = {
-                "result": result[0]
-            }
-            return res.status(200).json(data);
-        }).catch(error => {
-            return res.status(500).json(error);
-        })
-    },
-    addTransactionByUserId(req, res) {
+    addTransaction(req, res) {
         if (valueChecker.checkObject({
             categoryId: req.body.categoryId,
             description: req.body.description,
             amount: req.body.amount,
             expenseType: req.body.expenseType,
-            transactionDate: req.body.transactionDate,
-            createdBy: req.body.createdBy,
-            modifiedBy: req.body.modifiedBy
+            transactionDate: req.body.transactionDate
         }) !== true) {
             return res.status(500).json({ error: valueChecker.errorMessage });
         }
-        expenseManagementServices.handleaddTransactionByUserId(req.body).then(result => {
+        expenseManagementServices.handleaddTransaction(req.body).then(result => {
             var data = {
                 "result": result[0]
             }
@@ -103,7 +85,7 @@ let expenseManagementContoller = {
             return res.status(500).json(error);
         })
     },
-    transactionlist(req, res) {
+    fetchTransactionlist(req, res) {
         if (valueChecker.checkObject({
             startDate: req.body.startDate,
             endDate: req.body.endDate

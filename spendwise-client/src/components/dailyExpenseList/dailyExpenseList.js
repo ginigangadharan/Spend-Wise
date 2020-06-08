@@ -88,7 +88,7 @@ export default class DailyExpenselist extends Component {
         for (var i = 0; i < days; i++) {
             let dataObj = [];
             transactionDate = moment(payload.startDate).add(i, 'd').format('YYYY/MM/DD')
-            dataObj.push(parseInt(payload.categoryId), payload.description, parseInt(payload.amount), parseInt(payload.expenseType), transactionDate, 1, 1)
+            dataObj.push(parseInt(payload.categoryId), payload.description, parseInt(payload.amount), parseInt(payload.expenseType), transactionDate)
             dataDict.push(dataObj);
         }
         return dataDict;
@@ -110,6 +110,7 @@ export default class DailyExpenselist extends Component {
     invokeBulkTransaction = (metaData) => {
         API.post('addBulkTransaction', metaData)
             .then((response) => {
+                console.log(response)
                 this.setState({
                     showModal: false
                 })

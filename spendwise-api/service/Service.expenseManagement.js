@@ -17,26 +17,10 @@ var expenseManagementService = {
             console.log("Error in handlefetchDailyExpenses : " + e);
         }
     },
-    handlefetchTodaysExpensesByUserId: function (data) {
+    handleaddTransaction: function (data) {
         try {
             return new Promise((resolve, reject) => {
-                db.query('CALL SP_FetchTodaysExpensesByUserId(?,?)', [data.searchDate, data.userID], (error, rows) => {
-                    if (error) {
-                        reject(error);
-                    }
-                    else {
-                        resolve(rows);
-                    }
-                });
-            });
-        } catch (e) {
-            console.log("Error in handlefetchTodaysExpensesByUserId : " + e);
-        }
-    },
-    handleaddTransactionByUserId: function (data) {
-        try {
-            return new Promise((resolve, reject) => {
-                db.query('CALL SP_AddTransactionByUserId(?,?,?,?,?,?,?)', [data.categoryId, data.description, data.amount, data.expenseType, data.transactionDate, data.createdBy, data.modifiedBy], (error, rows) => {
+                db.query('CALL SP_AddTransaction(?,?,?,?,?)', [data.categoryId, data.description, data.amount, data.expenseType, data.transactionDate], (error, rows) => {
                     if (error) {
                         reject(error);
                     }
@@ -68,7 +52,7 @@ var expenseManagementService = {
     handleaddBulkTransaction: function (data) {
         try {
             return new Promise((resolve, reject) => {
-                var SQL = 'INSERT INTO tbl_expenses (CategoryId, Description, Amount, ExpenseType, DateofEntry,CreatedBy, ModifiedBy) VALUES ?';
+                var SQL = 'INSERT INTO tbl_expenses (CategoryId, Description, Amount, ExpenseType, DateofEntry) VALUES ?';
                 db.query(SQL, [data], (error, rows) => {
                     if (error) {
                         reject(error);

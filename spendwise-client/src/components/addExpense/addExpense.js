@@ -6,12 +6,45 @@ import { FormGroup } from "@material-ui/core";
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import * as moment from 'moment';
+import API from '../../api/api';
 
 let updatedValue = {};
 export default class AddExpense extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            category: [],
+            expenseType: []
+        }
+    }
+
+    componentDidMount() {
+        this.fetchCategory();
+        this.fetchExpenseType();
+    }
+
+    fetchCategory = () => {
+        API.get('listcategory')
+            .then((response) => {
+                this.setState({
+                    category: response.data.result
+                })
+            }, (error) => {
+                console.log(error);
+            });
+    }
+
+    fetchExpenseType = () => {
+        API.get('listexpensetype')
+            .then((response) => {
+                this.setState({
+                    expenseType: response.data.result
+                })
+            }, (error) => {
+                console.log(error);
+            });
     }
 
     closePopup = (e) => {
@@ -70,8 +103,6 @@ export default class AddExpense extends Component {
             payLoad.description = this.refs.desc.value;
             payLoad.amount = this.refs.amount.value;
             payLoad.expenseType = this.refs.expenseTypeId.value;
-            payLoad.createdBy = 1;
-            payLoad.modifiedBy = 1;
             updatedValue.validated = false;
             if (this.props.isRepeat) {
                 payLoad.startDate = moment(this.props.startDate).format('YYYY/MM/DD');
@@ -87,6 +118,7 @@ export default class AddExpense extends Component {
 
     render() {
         let datePicker, dateRangePicker;
+        const { category, expenseType } = this.state;
         datePicker = (
             <Form.Group>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -150,21 +182,22 @@ export default class AddExpense extends Component {
                             <Form.Label>Category</Form.Label>
                             <Form.Control as="select" ref="categoryId" className="my-1 mr-sm-2" custom required>
                                 <option value="">Choose...</option>
-                                <option value="1">Utilities</option>
-                                <option value="2">Transportation</option>
-                                <option value="3">Internet</option>
-                                <option value="4">Car Parking</option>
-                                <option value="5">Groceries</option>
-                                <option value="6">Income</option>
-                                <option value="7">Others</option>
+                                {category.map((item) => {
+                                    return (
+                                        <option value={item.Id}>{item.Category}</option>
+                                    );
+                                })}
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Expense Type</Form.Label>
                             <Form.Control as="select" ref="expenseTypeId" className="my-1 mr-sm-2" custom required>
                                 <option value="">Choose..</option>
-                                <option value="1">Earnings</option>
-                                <option value="2">Payment</option>
+                                {expenseType.map((item) => {
+                                    return (
+                                        <option value={item.Id}>{item.expenseType}</option>
+                                    );
+                                })}
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
