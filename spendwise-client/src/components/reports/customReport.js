@@ -72,10 +72,12 @@ class customReport extends Component {
             payloadData.endDate = moment(this.state.endDate).format('YYYY-MM-DD')
             API.post('transactionlist', payloadData)
                 .then((response) => {
-                    this.setState({
-                        transactions: response.data.result,
-                        showTable: true
-                    })
+                    if (response.status === 200) {
+                        this.setState({
+                            transactions: response.data.result,
+                            showTable: true
+                        })
+                    }
                 }, (error) => {
                     console.log(error);
                 });

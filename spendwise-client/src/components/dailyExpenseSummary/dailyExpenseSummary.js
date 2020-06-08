@@ -22,9 +22,11 @@ export default class DailyExpenseSummary extends Component {
 
         API.post('dailyexpensesummary', postData)
             .then((response) => {
-                this.setState({
-                    summaryDetails: response.data.result
-                })
+                if (response.status === 200) {
+                    this.setState({
+                        summaryDetails: response.data.result
+                    })
+                }
             }, (error) => {
                 console.log(error);
             });

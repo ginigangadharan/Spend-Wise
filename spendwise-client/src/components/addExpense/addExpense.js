@@ -28,9 +28,11 @@ export default class AddExpense extends Component {
     fetchCategory = () => {
         API.get('listcategory')
             .then((response) => {
-                this.setState({
-                    category: response.data.result
-                })
+                if (response.status === 200) {
+                    this.setState({
+                        category: response.data.result
+                    })
+                }
             }, (error) => {
                 console.log(error);
             });
@@ -39,9 +41,11 @@ export default class AddExpense extends Component {
     fetchExpenseType = () => {
         API.get('listexpensetype')
             .then((response) => {
-                this.setState({
-                    expenseType: response.data.result
-                })
+                if (response.status === 200) {
+                    this.setState({
+                        expenseType: response.data.result
+                    })
+                }
             }, (error) => {
                 console.log(error);
             });

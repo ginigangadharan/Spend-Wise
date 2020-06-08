@@ -27,21 +27,22 @@ class previousMonth extends Component {
         }
         API.post('categoryStat', postData)
             .then((response) => {
-                response.data.result.incomeData.map((row) => {
-                    this.incomeLabels.push(row.category);
-                    this.incomeValues.push(row.Amount)
-                });
-                response.data.result.expenseData.map((row) => {
-                    this.expenseLables.push(row.category);
-                    this.expenseValues.push(row.Amount)
-                });
-                this.setState({
-                    barChartLabelsI: this.incomeLabels,
-                    barChartValuesI: this.incomeValues,
-                    barChartLabelsE: this.expenseLables,
-                    barChartValuesE: this.expenseValues,
-                })
-
+                if (response.status === 200) {
+                    response.data.result.incomeData.map((row) => {
+                        this.incomeLabels.push(row.category);
+                        this.incomeValues.push(row.Amount)
+                    });
+                    response.data.result.expenseData.map((row) => {
+                        this.expenseLables.push(row.category);
+                        this.expenseValues.push(row.Amount)
+                    });
+                    this.setState({
+                        barChartLabelsI: this.incomeLabels,
+                        barChartValuesI: this.incomeValues,
+                        barChartLabelsE: this.expenseLables,
+                        barChartValuesE: this.expenseValues,
+                    })
+                }
             }, (error) => {
                 console.log(error);
             });

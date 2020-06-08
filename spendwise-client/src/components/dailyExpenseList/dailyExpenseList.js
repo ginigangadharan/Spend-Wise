@@ -39,12 +39,14 @@ export default class DailyExpenselist extends Component {
     fetchData = (PageId) => {
         API.get('dailyexpenses?searchDate=' + moment().format('YYYY/MM/DD') + '&page=' + PageId)
             .then((response) => {
-                this.setState({
-                    expense: response.data.result,
-                    page: response.data.page,
-                    total: response.data.total,
-                    total_pages: response.data.total_pages
-                })
+                if (response.status === 200) {
+                    this.setState({
+                        expense: response.data.result,
+                        page: response.data.page,
+                        total: response.data.total,
+                        total_pages: response.data.total_pages
+                    })
+                }
             }, (error) => {
                 console.log(error);
             });
@@ -54,8 +56,10 @@ export default class DailyExpenselist extends Component {
         const transactionId = e.currentTarget.value;
         API.delete('deleteTransaction/' + transactionId)
             .then((response) => {
-                this.fetchData(1);
-                this.props.updateSummary();
+                if (response.status === 200) {
+                    this.fetchData(1);
+                    this.props.updateSummary();
+                }
             }, (error) => {
                 console.log(error);
             });
@@ -99,11 +103,13 @@ export default class DailyExpenselist extends Component {
     invokeSingleTransaction = (metaData) => {
         API.post('addTransaction', metaData)
             .then((response) => {
-                this.setState({
-                    showModal: false
-                })
-                this.fetchData(1);
-                this.props.updateSummary();
+                if (response.status === 200) {
+                    this.setState({
+                        showModal: false
+                    })
+                    this.fetchData(1);
+                    this.props.updateSummary();
+                }
             }, (error) => {
                 console.log(error);
             });
@@ -112,12 +118,13 @@ export default class DailyExpenselist extends Component {
     invokeBulkTransaction = (metaData) => {
         API.post('addBulkTransaction', metaData)
             .then((response) => {
-                console.log(response)
-                this.setState({
-                    showModal: false
-                })
-                this.fetchData(1);
-                this.props.updateSummary();
+                if (response.status === 200) {
+                    this.setState({
+                        showModal: false
+                    })
+                    this.fetchData(1);
+                    this.props.updateSummary();
+                }
             }, (error) => {
                 console.log(error);
             });

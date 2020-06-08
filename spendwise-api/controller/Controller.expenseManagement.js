@@ -1,6 +1,5 @@
 var expenseManagementServices = require('../service/Service.expenseManagement');
 var valueChecker = require('../helpers/valueChecker');
-var dataFormatter = require('../helpers/statDataFormatter');
 
 let expenseManagementContoller = {
     fetchDailyExpenses(req, res) {
