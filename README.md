@@ -49,11 +49,9 @@ $ mysql -u username –-password=your_password spendwise < spendwise.sql
 - Follow the next steps to run client and server.
 
 ```
-$ cd ../../
-$ cd spendwise-api
+$ cd Spend-Wise/spendwise-api
 $ npm install
-$ cd ..
-$ cd spendwise-client
+$ cd Spend-Wise/spendwise-client
 $ npm install
 ```
 - This will build and run client and server.
