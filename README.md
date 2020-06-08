@@ -13,12 +13,12 @@ Write an application that keeps track of a personal budget. The user can add exp
 - [MySQL](https://www.mysql.com/)
 - [docker](https://www.docker.com/)
 
-## How to use?
-Before proceeding make sure you have installed docker and docker-compose.
+## How to run the project with Docker?
+Before proceeding make sure you have installed Git, docker and docker-compose.
 - To install docker and docker-compose, [Docker Compose](https://docs.docker.com/compose/)
 - Clone the repository and issue the below commands.
 ```
-$ cd %repo%
+$ cd Spend-Wise
 $ docker-compose up -d
 ```
 - This will build and run the react, node.js and MySQL containers.
@@ -37,3 +37,24 @@ ecabd28bc17b        spendwise-client    "docker-entrypoint.s…"   4 minutes ago
 ```
 $ docker-compose down --rmi all
 ```
+## How to run the project without Docker?
+Before proceeding make sure you have Git and MySQL installed up and running. Clone the reository. Create a database named spendwise and follow the below steps.
+```
+$ cd Spend-Wise
+$ cd mysql/init-scripts
+$ mysql -u username –-password=your_password spendwise < spendwise.sql
+```
+
+- Open config.json in Spend-Wise/spendwise-api/config.json, update the MySQL configuration details.
+- Follow the next steps to run client and server.
+
+```
+$ cd ../../
+$ cd spendwise-api
+$ npm install
+$ cd ..
+$ cd spendwise-client
+$ npm install
+```
+- This will build and run client and server.
+- Application will open in your default browser.
