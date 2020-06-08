@@ -3,6 +3,9 @@ Write an application that keeps track of a personal budget. The user can add exp
 
 ## Screenshots
 
+![first](https://user-images.githubusercontent.com/10876540/84030582-e2170680-a9c6-11ea-9802-3e8e12239f45.gif)
+![reports](https://user-images.githubusercontent.com/10876540/84030650-f6f39a00-a9c6-11ea-8859-15361d729b05.gif)
+
 ## Tech/framework used
 <b>Built with</b>
 - [React](https://reactjs.org/)
