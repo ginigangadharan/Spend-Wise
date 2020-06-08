@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.3'
 services:
   spendwise-mysql:
     image: spendwise-mysql
@@ -26,7 +26,7 @@ services:
       - ./spendwise-api/helpers/:/usr/app/helpers/
       - ./spendwise-api/routes/:/usr/app/routes/
       - ./spendwise-api/service/:/usr/app/service/
-    spendwise-client:
+  spendwise-client:
     image: spendwise-client
     container_name: spendwise-client
     build:
