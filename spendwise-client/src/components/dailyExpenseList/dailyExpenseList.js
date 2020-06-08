@@ -5,6 +5,8 @@ import * as moment from 'moment'
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircleOutlineSharp';
+import TodayIcon from '@material-ui/icons/Today';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 import ModalExpense from '../addExpense/addExpense';
 import PageComp from '../pager/pager';
@@ -155,8 +157,8 @@ export default class DailyExpenselist extends Component {
                                     <div className="card-body" key={Id}>
                                         <h5 className="card-title">{Category}</h5>
                                         <p className="card-text">{Description}</p>
-                                        <p className="card-text">MYR {Amount}</p>
-                                        <p className="card-text">{DateofEntry}</p>
+                                        <p className="card-text">{<MonetizationOnIcon />}{' '} {Amount}</p>
+                                        <p className="card-text">{<TodayIcon />}{' '}{DateofEntry}</p>
                                         <Button value={Id} onClick={this.handleDeleteEntry} size="small" variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete</Button>
                                     </div>
                                 </div>
