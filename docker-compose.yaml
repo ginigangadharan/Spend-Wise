@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   spendwise-mysql:
-    image: mysql:5.7
+    image: spendwise-mysql
     container_name: spendwise-mysql
     build:
       context: ./mysql
