@@ -47,13 +47,20 @@ $ mysql -u username –-password=your_password spendwise < spendwise.sql
 ```
 
 - Open config.json in Spend-Wise/spendwise-api/config.json, update the MySQL configuration details.
-- Follow the next steps to run client and server.
+- Follow the next steps to run server and client.
 
+### Server
 ```
 $ cd Spend-Wise/spendwise-api
 $ npm install
+$ npm start
+```
+### Client
+
+```
 $ cd Spend-Wise/spendwise-client
 $ npm install
+$ npm start
 ```
 - This will build and run client and server.
 - Application will open in your default browser.
