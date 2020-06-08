@@ -1,6 +1,7 @@
 version: '3.3'
 services:
   spendwise-mysql:
+    env_file: ./.env
     image: spendwise-mysql
     container_name: spendwise-mysql
     build:
@@ -13,6 +14,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
   spendwise-api:
+    env_file: ./.env
     image: spendwise-api
     container_name: spendwise-api
     build:
@@ -27,6 +29,7 @@ services:
       - ./spendwise-api/routes/:/usr/app/routes/
       - ./spendwise-api/service/:/usr/app/service/
   spendwise-client:
+    env_file: ./.env
     image: spendwise-client
     container_name: spendwise-client
     build:
