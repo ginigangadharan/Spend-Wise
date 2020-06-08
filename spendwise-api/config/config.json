@@ -1,6 +1,6 @@
 {
     "host": "spendwise-mysql",
-    "port": 3306,
+    "port": 3307,
     "user": "mysqldev",
     "password": "dev@123",
     "database": "spendwise"
