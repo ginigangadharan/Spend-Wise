@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  spendwise-mysql:
+    image: spendwise-mysql
+    container_name: spendwise-mysql
+    build:
+      context: ./mysql
+    ports:
+      - ${SQL_PORT}:${SQL_PORT}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+  spendwise-api:
+    image: spendwise-api
+    container_name: spendwise-api
+    build:
+      context: ./spendwise-api
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    volumes:
+      - ./spendwise-api/config/:/usr/app/config/
+      - ./spendwise-api/controller/:/usr/app/controller/
+      - ./spendwise-api/db/:/usr/app/db/
+      - ./spendwise-api/helpers/:/usr/app/helpers/
+      - ./spendwise-api/routes/:/usr/app/routes/
+      - ./spendwise-api/service/:/usr/app/service/
+    spendwise-client:
+    image: spendwise-client
+    container_name: spendwise-client
+    build:
+      context: ./spendwise-client
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    volumes:
+      - ./spendwise-client/public/:/usr/app/public/
+      - ./spendwise-client/src/:/usr/app/src/

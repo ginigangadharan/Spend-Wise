@@ -1,5 +1,5 @@
 {
-    "host": "35.222.152.60",
+    "host": "spendwise-mysql",
     "port": 3306,
     "user": "mysqldev",
     "password": "dev@123",
