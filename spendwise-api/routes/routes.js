@@ -11,6 +11,8 @@ router.post('/addBulkTransaction', expenseManager.addBulkTransaction);
 router.delete('/deleteTransaction/:Id', expenseManager.deleteTransaction);
 router.post('/transactionlist', expenseManager.transactionlist);
 router.post('/categoryStat', expenseManager.fetchCategoryStat);
+router.get('/listcategory', expenseManager.fetchCategory);
+router.get('/listexpensetype', expenseManager.fetchExpenseType);
 
 
 module.exports = router;

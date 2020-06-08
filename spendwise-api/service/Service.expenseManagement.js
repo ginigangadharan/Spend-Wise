@@ -129,6 +129,38 @@ var expenseManagementService = {
         } catch (e) {
             console.log("Error in handleGetweeklyStat : " + e);
         }
+    },
+    handlefetchCategory: function (data) {
+        try {
+            return new Promise((resolve, reject) => {
+                db.query('CALL SP_FetchAllCategories()', [], (error, rows) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(rows);
+                    }
+                });
+            });
+        } catch (e) {
+            console.log("Error in handlefetchCategory : " + e);
+        }
+    },
+    handlefetchExpenseType: function (data) {
+        try {
+            return new Promise((resolve, reject) => {
+                db.query('CALL SP_FetchAllExpenseTypes()', [], (error, rows) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(rows);
+                    }
+                });
+            });
+        } catch (e) {
+            console.log("Error in handlefetchExpenseType : " + e);
+        }
     }
 };
 module.exports = expenseManagementService;

@@ -127,12 +127,31 @@ let expenseManagementContoller = {
             return res.status(500).json({ error: valueChecker.errorMessage });
         }
         expenseManagementServices.handleGetCategoryStat(req.body).then(result => {
-            // let formattedResult = dataFormatter.formatData(result[0], result[1]);
             var data = {
                 "result": {
                     "incomeData": result[0],
                     "expenseData": result[1]
                 }
+            }
+            return res.status(200).json(data);
+        }).catch(error => {
+            return res.status(500).json(error);
+        })
+    },
+    fetchCategory(req, res) {
+        expenseManagementServices.handlefetchCategory().then(result => {
+            var data = {
+                "result": result[0]
+            }
+            return res.status(200).json(data);
+        }).catch(error => {
+            return res.status(500).json(error);
+        })
+    },
+    fetchExpenseType(req, res) {
+        expenseManagementServices.handlefetchExpenseType().then(result => {
+            var data = {
+                "result": result[0]
             }
             return res.status(200).json(data);
         }).catch(error => {
