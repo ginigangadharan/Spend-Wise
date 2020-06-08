@@ -1,46 +1,21 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
---
--- Host: xx.xxx.xxx.xx    Database: spendwise
--- ------------------------------------------------------
--- Server version	5.7.30-0ubuntu0.16.04.1
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `tbl_category`
---
-
-DROP TABLE IF EXISTS `tbl_category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_category`
+DROP TABLE IF EXISTS tbl_category;
+CREATE TABLE tbl_category
 (
-  `Id` int
+  Id int
 (11) NOT NULL AUTO_INCREMENT,
-  `Category` varchar
+  Category varchar
 (45) NOT NULL,
   PRIMARY KEY
-(`Id`)
+(Id)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_category`
+-- Dumping data for table tbl_category
 --
 
-LOCK TABLES `tbl_category` WRITE;
-/*!40000 ALTER TABLE `tbl_category` DISABLE KEYS */;
-INSERT INTO `
-tbl_category`
+LOCK TABLES tbl_category WRITE;
+INSERT INTO 
+tbl_category
 VALUES
     (1, 'Housing'),
     (2, 'Consumer Debt'),
@@ -62,75 +37,65 @@ VALUES
     (18, 'Utilities'),
     (19, 'Savings'),
     (20, 'Miscellaneous');
-/*!40000 ALTER TABLE `tbl_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `tbl_expenseType`
+-- Table structure for table tbl_expenseType
 --
 
-DROP TABLE IF EXISTS `tbl_expenseType`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_expenseType`
+DROP TABLE IF EXISTS tbl_expenseType;
+CREATE TABLE tbl_expenseType
 (
-  `Id` int
+  Id int
 (11) NOT NULL AUTO_INCREMENT,
-  `expenseType` varchar
+  expenseType varchar
 (45) NOT NULL,
   PRIMARY KEY
-(`Id`)
+(Id)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_expenseType`
+-- Dumping data for table tbl_expenseType
 --
 
-LOCK TABLES `tbl_expenseType` WRITE;
-/*!40000 ALTER TABLE `tbl_expenseType` DISABLE KEYS */;
-INSERT INTO `
-tbl_expenseType`
+LOCK TABLES tbl_expenseType WRITE;
+INSERT INTO 
+tbl_expenseType
 VALUES
     (1, 'Earnings'),
     (2, 'Payment');
-/*!40000 ALTER TABLE `tbl_expenseType` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `tbl_expenses`
+-- Table structure for table tbl_expenses
 --
 
-DROP TABLE IF EXISTS `tbl_expenses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_expenses`
+DROP TABLE IF EXISTS tbl_expenses;
+CREATE TABLE tbl_expenses
 (
-  `Id` int
+  Id int
 (11) NOT NULL AUTO_INCREMENT,
-  `CategoryId` int
+  CategoryId int
 (11) NOT NULL,
-  `Description` text NOT NULL,
-  `Amount` int
+  Description text NOT NULL,
+  Amount int
 (11) NOT NULL,
-  `ExpenseType` int
+  ExpenseType int
 (11) NOT NULL,
-  `DateofEntry` date NOT NULL,
-  `Createdon` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Modifiedon` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  DateofEntry date NOT NULL,
+  Createdon timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  Modifiedon timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY
-(`Id`)
+(Id)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_expenses`
+-- Dumping data for table tbl_expenses
 --
 
-LOCK TABLES `tbl_expenses` WRITE;
-/*!40000 ALTER TABLE `tbl_expenses` DISABLE KEYS */;
-INSERT INTO `
-tbl_expenses`
+LOCK TABLES tbl_expenses WRITE;
+INSERT INTO 
+tbl_expenses
 VALUES
     (2, 3, 'Daily KTM charge', 5, 2, '2020-06-09', '2020-06-08 05:12:16', '2020-06-08 05:12:16'),
     (3, 3, 'Daily KTM charge', 5, 2, '2020-06-10', '2020-06-08 05:12:16', '2020-06-08 05:12:16'),
@@ -146,13 +111,12 @@ VALUES
     (13, 13, 'Movie', 15, 2, '2020-06-08', '2020-06-08 05:39:35', '2020-06-08 05:39:35'),
     (14, 10, 'Lulu shopping', 100, 2, '2020-06-08', '2020-06-08 05:40:00', '2020-06-08 05:40:00'),
     (15, 18, 'TNB', 50, 2, '2020-06-08', '2020-06-08 05:58:03', '2020-06-08 05:58:03');
-/*!40000 ALTER TABLE `tbl_expenses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'spendwise'
 --
-/*!50003 DROP PROCEDURE IF EXISTS `SP_AddTransaction` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_AddTransaction */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -162,7 +126,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_AddTransaction`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_AddTransaction
 (
 IN categoryId INT,
 IN description TEXT,
@@ -195,7 +159,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `SP_DeleteTransaction` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_DeleteTransaction */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -205,7 +169,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_DeleteTransaction`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_DeleteTransaction
 (
 IN expenseId INT
 )
@@ -224,7 +188,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `SP_FetchAllCategories` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_FetchAllCategories */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -234,7 +198,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_FetchAllCategories`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_FetchAllCategories
 ()
 BEGIN
 
@@ -250,7 +214,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `SP_FetchAllExpenseTypes` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_FetchAllExpenseTypes */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -260,7 +224,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_FetchAllExpenseTypes`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_FetchAllExpenseTypes
 ()
 BEGIN
 
@@ -276,7 +240,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `SP_FetchCategoryStat` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_FetchCategoryStat */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -286,7 +250,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_FetchCategoryStat`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_FetchCategoryStat
 (
 IN startDate DATE,
 IN endDate DATE
@@ -352,7 +316,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `SP_FetchDailyExpenses` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_FetchDailyExpenses */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -362,7 +326,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_FetchDailyExpenses`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_FetchDailyExpenses
 (
 IN expenseDate date,
 IN pageCount INT
@@ -407,7 +371,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `SP_FetchDailyExpenseSummary` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_FetchDailyExpenseSummary */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -417,7 +381,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_FetchDailyExpenseSummary`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_FetchDailyExpenseSummary
 (
 IN expenseDate date
 )
@@ -465,7 +429,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `SP_FetchTransactionDetails` */;
+/*!50003 DROP PROCEDURE IF EXISTS SP_FetchTransactionDetails */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -475,7 +439,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`mysqldev`@`%` PROCEDURE `SP_FetchTransactionDetails`
+CREATE DEFINER=mysqldev@% PROCEDURE SP_FetchTransactionDetails
 (
 IN startDate DATE,
 IN endDate DATE
